@@ -1,6 +1,6 @@
 if (DEFINED __INIT_LOBARO_BUILD)
     # cmake configuration used in lobaro's internal build configuration
-    project(lobaro-coap)
+    project(util-lobaro-coap)
 
     include(${CPATH}/src/github.com/lobaro/c-build/build.cmake)
 
@@ -12,14 +12,14 @@ if (DEFINED __INIT_LOBARO_BUILD)
             -DCOAP_MAX_RETRANSMIT=2
     )
 
-    cbuild_module("lobaro/lobaro-coap/test")
+    cbuild_module("lobaro/util-lobaro-coap/test")
 
     # cbuild_dependency(_ github.com/lobaro/cpp-utils)
 else()
     # general cmake configuration used outside of lobaro
     cmake_minimum_required(VERSION 3.1)
 
-    project(lobaro_coap C)
+    project(util-lobaro_coap C)
 
     file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_LIST_DIR}/src/*.h ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
     add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} src/liblobaro_coap.c)
