@@ -65,8 +65,11 @@ void _rom CoAP_free_MsgPayload(CoAP_Message_t** Msg) {
 }
 
 bool _rom CoAP_MsgIsRequest(CoAP_Message_t* pMsg) {
-	if (pMsg->Code != EMPTY && pMsg->Code <= REQ_LAST)
-		return true;
+	if (pMsg->Code != EMPTY && pMsg->Code <= REQ_LAST) {
+        return true;
+    } else if(pMsg->Code == EMPTY && pMsg->Type == CON){ // CoAP ping
+        return true;
+    }
 	return false;
 }
 
