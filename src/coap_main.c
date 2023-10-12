@@ -136,6 +136,17 @@ void _ram CoAP_HandleIncomingPacket(SocketHandle_t socketHandle, NetPacket_t* pP
 			goto END;
 		}
 		pIA->ResConfirmState = RST_SEND;
+
+        // client role handling
+        if (pIA->Role == COAP_ROLE_CLIENT && CoAP_TokenEqual(pIA->pReqMsg->Token, pMsg->Token) && pIA->State == COAP_STATE_WAITING_RESPONSE) {
+            if (pIA->pRespMsg != NULL) {
+                CoAP_free_Message(&(pIA->pRespMsg)); //free eventually present older response (todo: check if this is possible!?)
+            }
+            pIA->pRespMsg = pMsg; //attach just received message for further actions in IA [client] state-machine & return
+            pIA->State = COAP_STATE_HANDLE_RESPONSE;
+            return;
+        }
+
 		goto END;
 	}
 	case ACK: {
@@ -146,11 +157,12 @@ void _ram CoAP_HandleIncomingPacket(SocketHandle_t socketHandle, NetPacket_t* pP
 		}
 		pIA->ResConfirmState = ACK_SEND;
 
-		//piA is NOT NULL in every case here
+        // client role handling
+		// piA is NOT NULL in every case here
 		DEBUG("- piggybacked response received\r\n");
-		if (pMsg->Code != EMPTY) {
+		if (pMsg->Code != EMPTY || (pIA->pReqMsg->Code == EMPTY && pIA->pReqMsg->Type == CON) ) { // allow also coap ping response with
 			//no "simple" ACK => must be piggybacked RESPONSE to our [client] request. corresponding Interaction has been found before
-			if (pIA->Role == COAP_ROLE_CLIENT && CoAP_TokenEqual(pIA->pReqMsg->Token, pMsg->Token) && pIA->State == COAP_STATE_WAITING_RESPONSE) {
+            if (pIA->Role == COAP_ROLE_CLIENT && CoAP_TokenEqual(pIA->pReqMsg->Token, pMsg->Token) && pIA->State == COAP_STATE_WAITING_RESPONSE) {
 				if (pIA->pRespMsg != NULL) {
 					CoAP_free_Message(&(pIA->pRespMsg)); //free eventually present older response (todo: check if this is possible!?)
 				}
@@ -161,6 +173,7 @@ void _ram CoAP_HandleIncomingPacket(SocketHandle_t socketHandle, NetPacket_t* pP
 				INFO("- could not piggybacked response to any request!\r\n");
 			}
 		}
+
 		break;
 	}
 	case NON:

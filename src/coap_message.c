@@ -309,6 +309,7 @@ static CoAP_Result_t _rom CoAP_BuildDatagram(uint8_t* destArr, uint16_t* pDestAr
 
 	if (Msg->Code == EMPTY) { //must send only 4 byte header overwrite upper layer in any case!
 		Msg->PayloadLength = 0;
+        Msg->Token.Length = 0;
 		TokenLength = 0;
 	} else {
 		TokenLength = Msg->Token.Length;
