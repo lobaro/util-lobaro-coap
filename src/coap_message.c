@@ -153,7 +153,7 @@ CoAP_Message_t* _rom CoAP_CreateMessage(CoAP_MessageType_t Type,
 	if (pMsg == NULL) {
 		return NULL;
 	}
-	INFO("Created message %p\n", pMsg);
+	//INFO("Created message %p\n", pMsg);
 
 	CoAP_InitToEmptyResetMsg(pMsg); //init
 
@@ -386,7 +386,7 @@ CoAP_Result_t _rom CoAP_SendEmptyRST(uint16_t MessageID, SocketHandle_t socketHa
 }
 
 CoAP_Result_t _rom CoAP_SendMsg(CoAP_Message_t* Msg, SocketHandle_t socketHandle, NetEp_t receiver) {
-	INFO("Sending CoAP msg\r\n");
+	//INFO("Sending CoAP msg\r\n");
 	int i;
 	uint16_t bytesToSend = 0;
 	CoAP_Socket_t* pSocket = RetrieveSocket(socketHandle);
