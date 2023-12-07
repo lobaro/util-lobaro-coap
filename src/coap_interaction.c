@@ -188,7 +188,7 @@ CoAP_Result_t _rom CoAP_EnableAckTimeout(CoAP_Interaction_t* pIA, uint8_t retryN
     } else {
         waitTime = TIMEOUTS[sizeof(TIMEOUTS) - 1];
     }
-    INFO("CoAP timeout: %lus\n", waitTime);
+   // INFO("CoAP timeout: %lus\n", waitTime);
     pIA->AckTimeout = CoAP.api.rtc1HzCnt() + waitTime;
     return COAP_OK;
 #else
