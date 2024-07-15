@@ -366,7 +366,9 @@ static CoAP_Result_t _rom CheckReqStatus(CoAP_Interaction_t* pIA) {
 
 CoAP_Socket_t* CoAP_NewSocket(SocketHandle_t handle) {
 	CoAP_Socket_t* socket = AllocSocket();
-	socket->Handle = handle;
+	if (socket != NULL) {
+		socket->Handle = handle;
+	}
 	return socket;
 }
 
