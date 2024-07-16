@@ -372,6 +372,15 @@ CoAP_Socket_t* CoAP_NewSocket(SocketHandle_t handle) {
 	return socket;
 }
 
+bool CoAP_FreeSocket(SocketHandle_t handle) {
+	CoAP_Socket_t *socket = RetrieveSocket(handle);
+	if (socket != NULL) {
+		socket->Alive = false;
+		return true;
+	}
+	return false;
+}
+
 static void handleServerInteraction(CoAP_Interaction_t* pIA) {
 	if (pIA->State == COAP_STATE_HANDLE_REQUEST ||
 			pIA->State == COAP_STATE_RESOURCE_POSTPONE_EMPTY_ACK_SENT ||

@@ -360,6 +360,8 @@ void CoAP_Init(CoAP_API_t api);
  */
 CoAP_Socket_t *CoAP_NewSocket(SocketHandle_t handle);
 
+bool CoAP_FreeSocket(SocketHandle_t handle);
+
 /**
  * All resources must be created explicitly.
  * One reason is that the stack handles observer state per resource.
