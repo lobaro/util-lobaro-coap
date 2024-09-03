@@ -24,7 +24,7 @@
 #include "coap.h"
 #include "liblobaro_coap.h"
 #include "coap_mem.h"
-
+#include <github.com/lobaro/c-utils/lobaroAssert.h>
 static void _rom CoAP_InitToEmptyResetMsg(CoAP_Message_t* msg) {
 	msg->Type = RST;
 	msg->Code = EMPTY;
@@ -389,6 +389,7 @@ CoAP_Result_t _rom CoAP_SendMsg(CoAP_Message_t* Msg, SocketHandle_t socketHandle
 	//INFO("Sending CoAP msg\r\n");
 	int i;
 	uint16_t bytesToSend = 0;
+    lobaroASSERT(Msg != NULL);
 	CoAP_Socket_t* pSocket = RetrieveSocket(socketHandle);
 
 	if (pSocket == NULL) {
