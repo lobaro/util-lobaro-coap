@@ -271,7 +271,6 @@ static CoAP_Result_t _rom SendReq(CoAP_Interaction_t* pIA, CoAP_InteractionState
 
 	} else { //unexspected internal failure todo: try at least to send 4 byte RESP_INTERNAL_SERVER_ERROR_5_00
 		INFO("(!!!) SendReq(): Internal socket error on sending response! MiD: %d, CoapResult: %d\r\n", pIA->pReqMsg->MessageID, res);
-		CoAP_DeleteInteraction(pIA);
 		return COAP_ERR_SOCKET;
 	}
 
@@ -648,7 +647,15 @@ static void handleClientInteraction(CoAP_Interaction_t* pIA) {
 	if (pIA->State == COAP_STATE_READY_TO_REQUEST) {
 		//------------------------------------------
 		//o>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		SendReq(pIA, COAP_STATE_WAITING_RESPONSE); //transmit response & move to next state
+        //transmit response & move to next state
+		if(SendReq(pIA, COAP_STATE_WAITING_RESPONSE) != COAP_OK) {
+            // Socket Error?
+            // CoAP_DeleteInteraction already called internally!
+            if (pIA->RespCB != NULL) {
+                pIA->RespCB(NULL, pIA->pReqMsg, &pIA->RemoteEp);
+            }
+            CoAP_DeleteInteraction(pIA);
+        }
 		//o>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		//--------------------------------------------------
 	} else if (pIA->State == COAP_STATE_WAITING_RESPONSE) {
