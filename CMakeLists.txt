@@ -19,7 +19,7 @@ else()
     # general cmake configuration used outside of lobaro
     cmake_minimum_required(VERSION 3.1)
 
-    project(util-lobaro_coap C)
+    project(util-lobaro-coap C)
 
     file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_LIST_DIR}/src/*.h ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
     add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} src/liblobaro_coap.c)
