@@ -173,7 +173,18 @@ void _ram CoAP_HandleIncomingPacket(SocketHandle_t socketHandle, NetPacket_t* pP
 				INFO("- could not piggybacked response to any request!\r\n");
 			}
 		}
-
+		if (pMsg->Code == EMPTY && pIA->Role == COAP_ROLE_CLIENT && pIA->State == COAP_STATE_WAITING_RESPONSE) {
+			// old versions (<2.10.0) of Lobaro Platform respond with an empty ACK to unknown endpoints
+			// that is not allowed in CoAP standard, but we need to pass it through to avoid having to wait for
+			// time out on each sync request
+			INFO("- invalid empty ACK received, try to pass on\r\n");
+			if (pIA->pRespMsg != NULL) {
+				CoAP_free_Message(&(pIA->pRespMsg)); //free eventually present older response (todo: check if this is possible!?)
+			}
+			pIA->pRespMsg = pMsg; //attach just received message for further actions in IA [client] state-machine & return
+			pIA->State = COAP_STATE_HANDLE_RESPONSE;
+			return;
+		}
 		break;
 	}
 	case NON:
