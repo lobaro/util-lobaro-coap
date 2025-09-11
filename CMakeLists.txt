@@ -17,7 +17,7 @@ if (DEFINED __INIT_LOBARO_BUILD)
     # cbuild_dependency(_ github.com/lobaro/cpp-utils)
 else()
     # general cmake configuration used outside of lobaro
-    cmake_minimum_required(VERSION 3.1)
+    cmake_minimum_required(VERSION 3.10)
 
     project(util-lobaro-coap C)
 
