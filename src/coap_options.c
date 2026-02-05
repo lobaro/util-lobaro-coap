@@ -335,7 +335,7 @@ CoAP_Result_t _rom CoAP_AddOption(CoAP_Message_t* pMsg, uint16_t OptNumber, uint
 }
 
 CoAP_Result_t _rom CoAP_AppendUintOptionToList(CoAP_option_t** pOptionsListBegin, uint16_t OptNumber, uint32_t val) {
-	uint8_t wBuf[4];
+    uint8_t wBuf[4]={};
 
 	if(val==0)
 	{
