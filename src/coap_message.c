@@ -539,9 +539,9 @@ void _rom CoAP_PrintMsg(CoAP_Message_t* msg) {
 		}
 
 		LOG_INFO(" Code=%s", CoAP_CodeName(msg->Code));
-		LOG_INFO(" MsgId=%"PRIu16, msg->MessageID);
+		LOG_INFO(" MsgId=%u", msg->MessageID);
 		LOG_INFO(" Timestamp=%"PRIu32, msg->Timestamp);
-		LOG_INFO(" PayloadLen=%"PRIu16, msg->PayloadLength);
+		LOG_INFO(" PayloadLen=%u", msg->PayloadLength);
 		LOG_INFO("\n");
 		return;
 	}
