@@ -575,10 +575,13 @@ void _rom CoAP_PrintMsg(CoAP_Message_t* msg) {
 		LOG_DEBUG("*Token: %u Byte -> 0", tokenBytes);
 	}
 
-	uint8_t code = msg->Code;
-	LOG_DEBUG("\n*Code: %d.%02d (0x%02x) [%s]\n", code >> 5u, code & 31u, code, CoAP_CodeName(code));
+	{
+		const uint8_t code = msg->Code;
+		(void) code;
+		LOG_DEBUG("\n*Code: %d.%02d (0x%02x) [%s]\n", code >> 5u, code & 31u, code, CoAP_CodeName(code));
 
-	LOG_DEBUG("*MessageId: %u\n", msg->MessageID);
+		LOG_DEBUG("*MessageId: %u\n", msg->MessageID);
+	}
 
 	CoAP_printOptionsList(msg->pOptionsList);
 	if (msg->PayloadLength) {
