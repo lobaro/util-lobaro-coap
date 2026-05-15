@@ -28,6 +28,8 @@ void debugPuts_Empty(const char* s) {
 	(void) s;  // unused
 }
 
+_Static_assert(sizeof(CoAP_MessageCode_t) > 1, "CoAP_MessageCode must be able to contain LOBCOM_ERROR_CANCELLED 0x0e07");
+
 void CoAP_Init(CoAP_API_t api) {
 	CoAP.api = api;
 
