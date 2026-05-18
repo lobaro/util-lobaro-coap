@@ -240,6 +240,15 @@ typedef enum {
 	RESP_SERVICE_UNAVAILABLE_5_03 = CODE(5u, 3u),
 	RESP_GATEWAY_TIMEOUT_5_04 = CODE(5u, 4u),
 	RESP_PROXYING_NOT_SUPPORTED_5_05 = CODE(5u, 5u),
+
+	/// enum CoAP_MessageCode_t only contains values <0xFF so far,
+	/// therefore the compiler uses `unsigned char` as its underlying type.
+	///
+	/// But util-lobcom/src/lobcom.c:78 stores the value 0x0e07 in a CoAP_MessageCode_t which would be clipped
+	/// to 8 bit and the compiler detects and complains:
+	/// "warning: unsigned conversion from 'int' to 'CoAP_MessageCode_t' changes value from '3591' to '7' [-Woverflow]"
+	///
+	/// Adding a dummy enumerator >0xFF would fix this problem reliably:
 	DUMMY_TO_MAKE_ENUM_TYPE_BIG_ENOUGH = 0xFFFF,
 } CoAP_MessageCode_t;
 
